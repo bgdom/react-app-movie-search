@@ -13,7 +13,7 @@ const HomePage = memo((props) => {
     title: item.original_title,
     description: item.overview,
     score: parseInt(item.vote_average),
-    posterPath: item.poster_path,
+    posterPath: `https://image.tmdb.org/t/p/original${item.poster_path}`,
   }));
 
   return <PopularMoviesList movies={movies} />;

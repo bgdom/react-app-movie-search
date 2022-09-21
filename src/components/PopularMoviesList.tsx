@@ -22,4 +22,5 @@ export default memo(({ movies, onMovieSelected }: Props) => {
 const ListContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
 `;

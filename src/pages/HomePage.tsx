@@ -9,6 +9,7 @@ import PopularMoviesList from "../components/PopularMoviesList";
 import { Movie } from "../types/movie";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
+import styled from "styled-components";
 
 const mapRawDataToMovies = (rawData: PopularMoviesRequestResult) =>
   rawData.results.map((item) => ({
@@ -50,12 +51,28 @@ export default memo(() => {
   if (isLoadingPopularMovies && !searchedText) return null;
 
   return (
-    <div>
-      <SearchBar value={searchedText} onChange={setSearchedText} />
-      <PopularMoviesList
-        movies={(searchedText ? searchedMovies : popularMovies) || []}
-        onMovieSelected={onMovieSelectedCallback}
-      />
-    </div>
+    <HomeContainer>
+      <ContentContainer>
+        <SearchBar value={searchedText} onChange={setSearchedText} />
+        <PopularMoviesList
+          movies={(searchedText ? searchedMovies : popularMovies) || []}
+          onMovieSelected={onMovieSelectedCallback}
+        />
+      </ContentContainer>
+    </HomeContainer>
   );
 });
+
+const HomeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+  width: 920px;
+`;

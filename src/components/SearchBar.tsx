@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ChangeEvent, memo, useCallback, useState } from "react";
+import { ChangeEvent, memo, useCallback } from "react";
 import { ImCross as Cross } from "react-icons/im";
 
 interface Props {

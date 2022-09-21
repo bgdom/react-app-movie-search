@@ -5,17 +5,25 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
+import Header from "./components/Header";
+import Root from "./pages/Root";
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/movie/:id",
-    element: <MoviePage />,
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "/movie/:id",
+        element: <MoviePage />,
+      },
+    ],
   },
 ]);
 

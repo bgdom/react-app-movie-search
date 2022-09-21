@@ -4,7 +4,7 @@ import { Movie } from "../types/movie";
 
 interface Props {
   movie: Movie;
-  onClick: (movie: Movie) => void;
+  onClick?: (movie: Movie) => void;
 }
 
 const ImgContainer = styled.img`
@@ -13,7 +13,10 @@ const ImgContainer = styled.img`
 `;
 
 export default memo(({ movie, onClick }: Props) => {
-  const onClickCallback = useCallback(() => onClick(movie), [movie, onClick]);
+  const onClickCallback = useCallback(
+    () => onClick && onClick(movie),
+    [movie, onClick]
+  );
 
   return (
     <div onClick={onClickCallback}>

@@ -2,13 +2,14 @@ import { memo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetail } from "../services/movies";
 import { useParams } from "react-router-dom";
+import MovieCard from "../components/MovieCard";
 
 interface Props {}
 
 export default memo(({}: Props) => {
   const { id } = useParams();
 
-  const { isLoading, data } = useQuery(
+  const { isLoading, data: movie } = useQuery(
     ["movieDetail"],
     () => fetchMovieDetail(parseInt(id || "")),
     {
@@ -22,7 +23,14 @@ export default memo(({}: Props) => {
     }
   );
 
-  if (isLoading || !data) return null;
+  if (isLoading || !movie) return null;
 
-  return <div>{JSON.stringify(data)}</div>;
+  return (
+    <div>
+      <div>{movie.title}</div>
+      <div>{movie.description}</div>
+      <div>{movie.score}/10</div>
+      <MovieCard movie={movie} />
+    </div>
+  );
 });

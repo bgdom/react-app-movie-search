@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { IoIosArrowBack as ArrowBack } from "react-icons/io";
 import Switch from "react-switch";
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const HeaderContainer = styled.header`
   background-color: #60a5fa;
@@ -15,10 +16,16 @@ const HeaderContainer = styled.header`
 
 export default () => {
   const [switchChecked, setSwitch] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const onBack = useCallback(() => navigate(-1), [navigate]);
+  const displayArrowBack = location.pathname.startsWith("/movie/");
 
   return (
     <HeaderContainer>
-      <ArrowBack />
+      {displayArrowBack ? <ArrowBack onClick={onBack} /> : <div />}
+
       <div>MOVIES</div>
       <Switch onChange={() => {}} checked={switchChecked} />
     </HeaderContainer>

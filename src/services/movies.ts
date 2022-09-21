@@ -18,3 +18,6 @@ export interface PopularMoviesRequestResult {
 
 export const fetchPopularMovies = (): Promise<PopularMoviesRequestResult> =>
   fetch(`${API_BASE_URL}/movie/popular?api_key=${API_KEY}`).then(result => result.json())
+
+export const fetchMovieDetail = (id: number): Promise<MovieRequestResult> =>
+  fetch(`${API_BASE_URL}/movie/${id}?api_key=${API_KEY}`).then(result => result.json())

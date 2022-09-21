@@ -12,22 +12,23 @@ export default memo(() => {
     [navigate]
   );
 
-  const { isLoading, data } = useQuery(["popularMovies"], fetchPopularMovies);
+  const { isLoading, data } = useQuery(["popularMovies"], fetchPopularMovies, {
+    select: (rawData) =>
+      rawData.results.map((item) => ({
+        id: item.id,
+        title: item.original_title,
+        description: item.overview,
+        score: parseInt(item.vote_average),
+        posterPath: `https://image.tmdb.org/t/p/original${item.poster_path}`,
+      })),
+  });
 
   if (isLoading || !data) return null;
-
-  const movies: Movie[] = data.results.map((item) => ({
-    id: item.id,
-    title: item.original_title,
-    description: item.overview,
-    score: parseInt(item.vote_average),
-    posterPath: `https://image.tmdb.org/t/p/original${item.poster_path}`,
-  }));
 
   return (
     <div>
       <PopularMoviesList
-        movies={movies}
+        movies={data}
         onMovieSelected={onMovieSelectedCallback}
       />
     </div>

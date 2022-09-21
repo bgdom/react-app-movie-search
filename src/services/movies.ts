@@ -2,10 +2,11 @@ const API_KEY = '8b74585b34628152a3fa07600dea420d';
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 
 export interface MovieRequestResult {
+  id: number
   original_title: string
   overview: string
   vote_average: string
-  poster_path: string;
+  poster_path: string
 }
 
 export interface PopularMoviesRequestResult {

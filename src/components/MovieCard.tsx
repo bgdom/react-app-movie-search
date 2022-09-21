@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { Movie } from "../types/movie";
 
 interface Props {
   movie: Movie;
+  onClick: (movie: Movie) => void;
 }
 
 const ImgContainer = styled.img`
@@ -11,9 +12,11 @@ const ImgContainer = styled.img`
   height: 273px;
 `;
 
-export default memo(({ movie }: Props) => {
+export default memo(({ movie, onClick }: Props) => {
+  const onClickCallback = useCallback(() => onClick(movie), [movie, onClick]);
+
   return (
-    <div>
+    <div onClick={onClickCallback}>
       <ImgContainer src={movie.posterPath} />
     </div>
   );

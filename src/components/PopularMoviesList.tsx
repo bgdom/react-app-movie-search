@@ -13,11 +13,7 @@ export default memo(({ movies, onMovieSelected }: Props) => {
   return (
     <ListContainer>
       {movies.map((movie) => (
-        <MovieCard
-          key={movie.posterPath}
-          movie={movie}
-          onClick={onMovieSelected}
-        />
+        <MovieCard key={movie.id} movie={movie} onClick={onMovieSelected} />
       ))}
     </ListContainer>
   );

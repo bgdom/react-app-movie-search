@@ -18,7 +18,9 @@ export default memo(({}: Props) => {
         title: rawData.original_title,
         description: rawData.overview,
         score: parseInt(rawData.vote_average),
-        posterPath: `https://image.tmdb.org/t/p/original${rawData.poster_path}`,
+        posterPath: rawData.poster_path
+          ? `https://image.tmdb.org/t/p/original${rawData.poster_path}`
+          : "",
       }),
     }
   );

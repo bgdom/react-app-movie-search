@@ -21,3 +21,7 @@ export const fetchPopularMovies = (): Promise<PopularMoviesRequestResult> =>
 
 export const fetchMovieDetail = (id: number): Promise<MovieRequestResult> =>
   fetch(`${API_BASE_URL}/movie/${id}?api_key=${API_KEY}`).then(result => result.json())
+
+export const searchMovies = (text: string): Promise<PopularMoviesRequestResult> =>
+  fetch(`${API_BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURI(text)}`).then(result => result.json())
+

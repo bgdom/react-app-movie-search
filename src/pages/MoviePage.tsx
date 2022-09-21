@@ -2,7 +2,7 @@ import { memo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetail } from "../services/movies";
 import { useParams } from "react-router-dom";
-import MovieCard from "../components/MovieCard";
+import MovieDetail from "../components/MovieDetail";
 
 interface Props {}
 
@@ -27,12 +27,5 @@ export default memo(({}: Props) => {
 
   if (isLoading || !movie) return null;
 
-  return (
-    <div>
-      <div>{movie.title}</div>
-      <div>{movie.description}</div>
-      <div>{movie.score}/10</div>
-      <MovieCard movie={movie} />
-    </div>
-  );
+  return <MovieDetail movie={movie} />;
 });

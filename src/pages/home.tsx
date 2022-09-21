@@ -4,9 +4,8 @@ import { fetchPopularMovies } from "../services/movies";
 import PopularMoviesList from "../components/PopularMoviesList";
 import { Movie } from "../types/movie";
 
-const HomePage = memo((props) => {
+const HomePage = memo(() => {
   const { isLoading, data } = useQuery(["popularMovies"], fetchPopularMovies);
-
   if (isLoading || !data) return null;
 
   const movies: Movie[] = data.results.map((item) => ({
@@ -16,7 +15,11 @@ const HomePage = memo((props) => {
     posterPath: `https://image.tmdb.org/t/p/original${item.poster_path}`,
   }));
 
-  return <PopularMoviesList movies={movies} />;
+  return (
+    <div>
+      <PopularMoviesList movies={movies} />;
+    </div>
+  );
 });
 
 export default HomePage;

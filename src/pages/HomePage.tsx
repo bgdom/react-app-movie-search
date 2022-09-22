@@ -51,28 +51,18 @@ export default memo(() => {
   if (isLoadingPopularMovies && !searchedText) return null;
 
   return (
-    <HomeContainer>
-      <ContentContainer>
-        <SearchBar value={searchedText} onChange={setSearchedText} />
-        <PopularMoviesList
-          movies={(searchedText ? searchedMovies : popularMovies) || []}
-          onMovieSelected={onMovieSelectedCallback}
-        />
-      </ContentContainer>
-    </HomeContainer>
+    <ContentContainer>
+      <SearchBar value={searchedText} onChange={setSearchedText} />
+      <PopularMoviesList
+        movies={(searchedText ? searchedMovies : popularMovies) || []}
+        onMovieSelected={onMovieSelectedCallback}
+      />
+    </ContentContainer>
   );
 });
-
-const HomeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-top: 10px;
-  width: 920px;
 `;

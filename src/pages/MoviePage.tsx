@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetail } from "../services/movies";
 import { useParams } from "react-router-dom";
 import MovieDetail from "../components/MovieDetail";
+import styled from "styled-components";
 
 interface Props {}
 

@@ -5,17 +5,29 @@ import { useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const HeaderContainer = styled.header`
-  background-color: #60a5fa;
+  background-color: ${(props) => props.theme.header};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 
-  height: 40px;
+  height: 35px;
 `;
 
-export default () => {
+interface Props {
+  onDarkModeChanged: (isDark: boolean) => void;
+}
+
+export default ({ onDarkModeChanged }: Props) => {
   const [switchChecked, setSwitch] = useState(false);
+  const switchCallback = useCallback(
+    (checked: boolean) => {
+      setSwitch(checked);
+      onDarkModeChanged(checked);
+    },
+    [onDarkModeChanged]
+  );
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,8 +38,14 @@ export default () => {
     <HeaderContainer>
       {displayArrowBack ? <ArrowBack onClick={onBack} /> : <div />}
 
-      <div>MOVIES</div>
-      <Switch onChange={() => {}} checked={switchChecked} />
+      <Title>Movies</Title>
+      <Switch onChange={switchCallback} checked={switchChecked} />
     </HeaderContainer>
   );
 };
+
+const Title = styled.span`
+  color: white;
+  font-weight: bold;
+  font-size: 1.2em;
+`;

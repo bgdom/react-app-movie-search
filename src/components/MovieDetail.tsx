@@ -13,6 +13,10 @@ const DetailContainer = styled.div`
   justify-content: space-between;
   padding: 10px;
   gap: 20px;
+
+  @media ${(props) => props.theme.media.tablet} {
+    flex-direction: column;
+  }
 `;
 
 const TextContainer = styled.div`

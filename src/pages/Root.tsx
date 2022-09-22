@@ -29,22 +29,29 @@ export default () => {
 
   return (
     <ThemeProvider theme={currentTheme}>
-      <Header onDarkModeChanged={handleDarkModeChange} />
-      <OutledContainer>
-        <OutledWidthContainer>
-          <Outlet />
-        </OutledWidthContainer>
-      </OutledContainer>
+      <Container>
+        <Header onDarkModeChanged={handleDarkModeChange} />
+        <OutledContainer>
+          <OutledWidthContainer>
+            <Outlet />
+          </OutledWidthContainer>
+        </OutledContainer>
+      </Container>
     </ThemeProvider>
   );
 };
+
+const Container = styled.div`
+  background-color: ${(props) => props.theme.background};
+  min-height: 100vh;
+  height: auto;
+`;
 
 const OutledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 10px;
-  background-color: ${(props) => props.theme.background};
 `;
 
 const OutledWidthContainer = styled.div`

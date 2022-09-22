@@ -30,6 +30,7 @@ const Text = styled.span`
   font-weight: bold;
   text-align: justify;
   text-justify: inter-word;
+  color: ${(props) => props.theme.text};
 `;
 
 const ImageContainer = styled.div`

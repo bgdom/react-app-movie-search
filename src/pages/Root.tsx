@@ -11,12 +11,14 @@ const media = {
 const dark = {
   header: "#1F2937",
   background: "#4B5563",
+  text: "white",
   media,
 };
 
 const light = {
   header: "#60a5fa",
   background: "#FFFFF",
+  text: "black",
   media,
 };
 

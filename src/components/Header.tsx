@@ -1,51 +1,34 @@
-import styled from "styled-components";
-import { IoIosArrowBack as ArrowBack } from "react-icons/io";
-import Switch from "react-switch";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const HeaderContainer = styled.header`
-  background-color: ${(props) => props.theme.header};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+import { IoIosArrowBack as ArrowBack } from "react-icons/io";
+import Switch from "react-switch";
+import { ThemeContext } from "../context/theme";
 
-  height: 35px;
-`;
-
-interface Props {
-  onDarkModeChanged: (isDark: boolean) => void;
-}
-
-export default ({ onDarkModeChanged }: Props) => {
+export default () => {
   const [switchChecked, setSwitch] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const theme = useContext(ThemeContext);
+
   const switchCallback = useCallback(
     (checked: boolean) => {
       setSwitch(checked);
-      onDarkModeChanged(checked);
+      theme.toggleDarkMode(checked);
     },
-    [onDarkModeChanged]
+    [theme]
   );
-
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const onBack = useCallback(() => navigate(-1), [navigate]);
   const displayArrowBack = location.pathname.startsWith("/movie/");
 
   return (
-    <HeaderContainer>
+    <header className="dark:bg-header-dark bg-header-light flex flex-row justify-between items-center h-9">
       {displayArrowBack ? <ArrowBack onClick={onBack} /> : <div />}
 
-      <Title>Movies</Title>
+      <span className="text-white font-bold text-xl">Movies</span>
       <Switch onChange={switchCallback} checked={switchChecked} />
-    </HeaderContainer>
+    </header>
   );
 };
-
-const Title = styled.span`
-  color: white;
-  font-weight: bold;
-  font-size: 1.2em;
-`;

@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import ReactHover, { Trigger, Hover } from "react-hover";
 import { memo } from "react";
 import { Movie } from "../types/movie";
@@ -11,7 +10,7 @@ interface Props {
 
 export default memo(({ movies, onMovieSelected }: Props) => {
   return (
-    <ListContainer>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1 justify-items-center">
       {movies.map((movie) => (
         <div key={movie.id}>
           <ReactHover options={{}}>
@@ -19,34 +18,13 @@ export default memo(({ movies, onMovieSelected }: Props) => {
               <MovieCard movie={movie} onClick={onMovieSelected} />
             </Trigger>
             <Hover type="hover">
-              <Title>{movie.title}</Title>
+              <span className="text-black p-3 bg-white text-xs border border-solid border-gray-50 rounded">
+                {movie.title}
+              </span>
             </Hover>
           </ReactHover>
         </div>
       ))}
-    </ListContainer>
+    </div>
   );
 });
-
-const ListContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-
-  @media ${(props) => props.theme.media.large} {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 5px;
-  }
-
-  @media ${(props) => props.theme.media.tablet} {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-`;
-
-const Title = styled.span`
-  color: black;
-  padding: 10px;
-  border: 1px solid gray;
-  border-radius: 3px;
-  background-color: white;
-  font-size: 0.7em;
-`;

@@ -1,29 +1,14 @@
-import { memo, useCallback, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import {
-  fetchPopularMovies,
-  PopularMoviesRequestResult,
-  searchMovies,
-} from "../services/movies";
+import { memo, useCallback, useEffect, useState } from "react";
 import PopularMoviesList from "../components/PopularMoviesList";
 import { Movie } from "../types/movie";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import styled from "styled-components";
-
-const mapRawDataToMovies = (rawData: PopularMoviesRequestResult) =>
-  rawData.results.map((item) => ({
-    id: item.id,
-    title: item.original_title,
-    description: item.overview,
-    score: parseInt(item.vote_average),
-    posterPath: item.poster_path
-      ? `https://image.tmdb.org/t/p/original${item.poster_path}`
-      : "",
-  }));
+import { useDelay } from "../hooks/customHooks";
+import { useGetMovieList } from "../hooks/movieHooks";
 
 export default memo(() => {
   const [searchedText, setSearchedText] = useState("");
+  const delay = useDelay(1700, true);
 
   const navigate = useNavigate();
   const onMovieSelectedCallback = useCallback(
@@ -31,38 +16,19 @@ export default memo(() => {
     [navigate]
   );
 
-  const { isLoading: isLoadingPopularMovies, data: popularMovies } = useQuery(
-    ["popularMovies"],
-    fetchPopularMovies,
-    {
-      select: mapRawDataToMovies,
-    }
-  );
+  const { data, fetchData } = useGetMovieList(searchedText);
 
-  const { data: searchedMovies } = useQuery(
-    ["searchedMovies", searchedText],
-    () => searchMovies(searchedText),
-    {
-      select: mapRawDataToMovies,
-      enabled: !!searchedText,
-    }
-  );
-
-  if (isLoadingPopularMovies && !searchedText) return null;
+  useEffect(() => {
+    delay(() => fetchData());
+  }, [searchedText, fetchData]);
 
   return (
-    <ContentContainer>
+    <div className="flex flex-col gap-3 items-stretch bg-red-100">
       <SearchBar value={searchedText} onChange={setSearchedText} />
       <PopularMoviesList
-        movies={(searchedText ? searchedMovies : popularMovies) || []}
+        movies={data}
         onMovieSelected={onMovieSelectedCallback}
       />
-    </ContentContainer>
+    </div>
   );
 });
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;

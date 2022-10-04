@@ -1,66 +1,31 @@
 import { useState, useCallback } from "react";
 import { Outlet } from "react-router-dom";
-import styled, { ThemeProvider } from "styled-components";
 import Header from "../components/Header";
-
-const media = {
-  large: "(max-width: 1024px)",
-  tablet: "(max-width: 768px)",
-};
-
-const dark = {
-  header: "#1F2937",
-  background: "#4B5563",
-  text: "white",
-  media,
-};
-
-const light = {
-  header: "#60a5fa",
-  background: "#FFFFF",
-  text: "black",
-  media,
-};
+import { ThemeContext, themes } from "../context/theme";
+import { ThemeType } from "../types/theme";
 
 export default () => {
-  const [currentTheme, setTheme] = useState(light);
+  const [currentTheme, setTheme] = useState<ThemeType>(themes.light);
+
   const handleDarkModeChange = useCallback((isDark: boolean) => {
-    if (isDark) setTheme(dark);
-    else setTheme(light);
+    if (isDark) setTheme(themes.dark);
+    else setTheme(themes.light);
   }, []);
 
+  currentTheme.toggleDarkMode = handleDarkModeChange;
+
   return (
-    <ThemeProvider theme={currentTheme}>
-      <Container>
-        <Header onDarkModeChanged={handleDarkModeChange} />
-        <OutledContainer>
-          <OutledWidthContainer>
-            <Outlet />
-          </OutledWidthContainer>
-        </OutledContainer>
-      </Container>
-    </ThemeProvider>
+    <div className={currentTheme === themes.dark ? "dark" : ""}>
+      <ThemeContext.Provider value={currentTheme}>
+        <div className="dark:bg-kind-gray bg-white h-auto min-h-screen min-w-[380px]">
+          <Header />
+          <div className="flex flex-col items-center">
+            <div className="w-[380px] sm:w-[590px] md:w-[770px] lg:w-[950px] flex flex-col">
+              <Outlet />
+            </div>
+          </div>
+        </div>
+      </ThemeContext.Provider>
+    </div>
   );
 };
-
-const Container = styled.div`
-  background-color: ${(props) => props.theme.background};
-  min-height: 100vh;
-  height: auto;
-`;
-
-const OutledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10px;
-`;
-
-const OutledWidthContainer = styled.div`
-  width: 920px;
-
-  @media ${(props) => props.theme.media.large} {
-    width: 98%;
-    min-width: 380px;
-  }
-`;
